@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>So sánh ngày với hiện tại</title>
+    <style>
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        input {
+            margin: 5px;
+        }
+
+        button {
+            margin-left: 5px;
+            background-color: rgb(144, 223, 223);
+            padding: 5px 10px;
+        }
+
+        button:hover {
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Nhập ngày (DD-MM-YYYY):</h2>
+    <input type="text" id="dateInput" placeholder="VD: 21-07-2025">
+    <button id="checkBtn">So sánh</button>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('checkBtn').addEventListener('click', function () {
+            const input = document.getElementById('dateInput').value.trim();
+            const result = document.getElementById('result');
+            result.classList.remove('error', 'success');
+
+            const regex = /^(\d{2})-(\d{2})-(\d{4})$/;
+            const match = input.match(regex);
+
+            if (!match) {
+                result.textContent = "Sai định dạng. Đúng: DD-MM-YYYY.";
+                result.classList.add('error');
+                return;
+            }
+
+            const day = parseInt(match[1], 10);
+            const month = parseInt(match[2], 10) - 1;
+            const year = parseInt(match[3], 10);
+            const inputDate = new Date(year, month, day);
+
+            if (
+                inputDate.getFullYear() !== year ||
+                inputDate.getMonth() !== month ||
+                inputDate.getDate() !== day
+            ) {
+                result.textContent = "Ngày không hợp lệ.";
+                result.classList.add('error');
+                return;
+            }
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            inputDate.setHours(0, 0, 0, 0);
+
+            if (inputDate.getTime() < today.getTime()) {
+                result.textContent = "Ngày nằm trong quá khứ.";
+                result.classList.add('success');
+            } else if (inputDate.getTime() > today.getTime()) {
+                result.textContent = "Ngày nằm trong tương lai.";
+                result.classList.add('success');
+            } else {
+                result.textContent = "Ngày chính là hôm nay.";
+                result.classList.add('success');
+            }
+        });
+    </script>
+</body>
+
+</html>
