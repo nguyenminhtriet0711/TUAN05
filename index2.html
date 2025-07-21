@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Nhập tên:</h2>
+    <input type="text" id="nameInput" placeholder="Nhập tên">
+    <button id="helloBtn">Click</button>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('helloBtn').addEventListener('click', function() {
+            const fullName = document.getElementById('nameInput').value.trim();
+
+            if (fullName === "") {
+                document.getElementById('result').textContent = "Bạn chưa nhập tên.";
+                return;
+            }
+
+            const nameParts = fullName.split(" ");
+            const lastName = nameParts[nameParts.length - 1];
+
+            document.getElementById('result').textContent = "Hello " + lastName;
+        });
+    </script>
+</body>
+
+</html>
